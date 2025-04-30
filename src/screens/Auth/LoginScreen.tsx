@@ -1,113 +1,102 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { signUpWithEmail, signInWithEmail } from "../../services/authService";
+import { signInWithEmail } from "../../services/authService";
 import { useGoogleAuth } from "../../services/googleAuthService";
+import theme from "../../constants/theme";
 
-const AuthScreen = () => {
+const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { promptAsync } = useGoogleAuth();
 
-  const handleSignUp = async () => {
-    try {
-      await signUpWithEmail(email, password);
-      Alert.alert("Succès", "Compte créé !");
-    } catch (error: any) {
-      Alert.alert("Erreur", error.message);
-    }
-  };
-
   const handleSignIn = async () => {
     try {
       await signInWithEmail(email, password);
-      Alert.alert("Succès", "Connexion réussie !");
+      Alert.alert("Connexion réussie !");
     } catch (error: any) {
       Alert.alert("Erreur", error.message);
     }
-  };
-
-  const handleGoogleSignIn = async () => {
-    await promptAsync();
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bienvenue 👋</Text>
+      <Text style={styles.title}>Connexion</Text>
 
       <TextInput
         style={styles.input}
         placeholder="Email"
-        onChangeText={setEmail}
-        value={email}
         autoCapitalize="none"
         keyboardType="email-address"
+        onChangeText={setEmail}
+        value={email}
+        placeholderTextColor={theme.colors.textSecondary}
       />
 
       <TextInput
         style={styles.input}
         placeholder="Mot de passe"
+        secureTextEntry
         onChangeText={setPassword}
         value={password}
-        secureTextEntry
+        placeholderTextColor={theme.colors.textSecondary}
       />
-
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>S'inscrire</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={handleSignIn}>
         <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignIn}>
+      <TouchableOpacity style={styles.googleButton} onPress={promptAsync}>
         <Text style={styles.googleText}>Se connecter avec Google</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default AuthScreen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 24,
-    backgroundColor: "#fff",
+    padding: theme.spacing.lg,
+    backgroundColor: theme.colors.secondary,
   },
   title: {
-    fontSize: 26,
+    fontSize: theme.fontSizes.title,
     fontWeight: "bold",
-    marginBottom: 24,
+    marginBottom: theme.spacing.lg,
     textAlign: "center",
+    color: theme.colors.textPrimary,
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 12,
-    marginBottom: 12,
+    borderColor: theme.colors.primary,
     borderRadius: 8,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    color: theme.colors.textPrimary,
   },
   button: {
-    backgroundColor: "#007AFF",
-    padding: 12,
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.md,
     borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: theme.spacing.sm,
   },
   buttonText: {
-    color: "#fff",
+    color: theme.colors.white,
     textAlign: "center",
+    fontWeight: "bold",
+    fontSize: theme.fontSizes.button,
   },
   googleButton: {
-    backgroundColor: "#fff",
-    borderColor: "#ccc",
+    borderColor: theme.colors.textSecondary,
     borderWidth: 1,
-    padding: 12,
+    padding: theme.spacing.md,
     borderRadius: 8,
-    marginTop: 12,
   },
   googleText: {
     textAlign: "center",
-    color: "#000",
+    color: theme.colors.textSecondary,
+    fontSize: theme.fontSizes.button,
   },
 });

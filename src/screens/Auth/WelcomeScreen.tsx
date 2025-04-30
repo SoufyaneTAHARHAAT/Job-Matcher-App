@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import theme from "../../constants/theme";
 
 const WelcomeScreen = () => {
   const navigation = useNavigation<any>();
@@ -8,6 +9,12 @@ const WelcomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bienvenue sur JobMatcher 👋</Text>
+      
+      <Image
+        source={require("../../assets/job-matcher-logo.png")}
+        style={styles.logo}
+      />
+
       <Text style={styles.subtitle}>Trouvez le job ou le candidat idéal !</Text>
 
       <TouchableOpacity
@@ -33,41 +40,49 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 24,
-    backgroundColor: "#f2f2f2",
+    paddingHorizontal: theme.spacing.lg,
+    backgroundColor: theme.colors.secondary,
   },
   title: {
-    fontSize: 28,
+    fontSize: theme.fontSizes.title,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: theme.spacing.sm,
     textAlign: "center",
+    color: theme.colors.textPrimary,
   },
   subtitle: {
-    fontSize: 16,
-    color: "#555",
+    fontSize: theme.fontSizes.subtitle,
+    color: theme.colors.textSecondary,
     textAlign: "center",
-    marginBottom: 30,
+    marginBottom: theme.spacing.lg,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: theme.spacing.md,
   },
   button: {
-    backgroundColor: "#007AFF",
-    padding: 15,
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.md,
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: theme.spacing.sm,
   },
   buttonText: {
-    color: "#fff",
+    color: theme.colors.white,
     textAlign: "center",
-    fontSize: 16,
+    fontSize: theme.fontSizes.button,
   },
   buttonOutline: {
     borderWidth: 1,
-    borderColor: "#007AFF",
-    padding: 15,
+    borderColor: theme.colors.primary,
+    padding: theme.spacing.md,
     borderRadius: 8,
   },
   buttonOutlineText: {
-    color: "#007AFF",
+    color: theme.colors.primary,
     textAlign: "center",
-    fontSize: 16,
+    fontSize: theme.fontSizes.button,
   },
 });
