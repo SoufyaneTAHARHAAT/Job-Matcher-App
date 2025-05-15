@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { signUpWithEmail } from "../../services/authService";
+import { createUserDocument } from "../../services/userService";
 import { useGoogleAuth } from "../../services/googleAuthService";
 import theme from "../../constants/theme";
 
@@ -11,12 +12,20 @@ const RegisterScreen = () => {
 
   const handleRegister = async () => {
     try {
-      await signUpWithEmail(email, password);
+      const user = await signUpWithEmail(email, password);
+      
+      await createUserDocument(user.uid, {
+        email,
+        role: "candidat",
+        createdAt: new Date(),
+      });
+  
       Alert.alert("Succès", "Compte créé !");
     } catch (error: any) {
       Alert.alert("Erreur", error.message);
     }
   };
+  
 
   return (
     <View style={styles.container}>
